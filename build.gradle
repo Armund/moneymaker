@@ -4,6 +4,10 @@ plugins {
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
 
 group = 'itmo.foodtech'
 version = '0.0.1-SNAPSHOT'
@@ -17,11 +21,44 @@ configurations {
 }
 
 repositories {
+	mavenLocal()
 	mavenCentral()
+	maven { url "http://repo.spring.io/libs-release" }
+}
+
+jar {
+	baseName = 'gs-accessing-data-mongodb'
+	version =  '0.1.0'
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+buildscript {
+	repositories {
+		maven { url "http://repo.spring.io/libs-release" }
+		mavenLocal()
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.8.RELEASE")
+	}
+}
+
+
+
+
+
+
+
+dependencies {
+	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+	testCompile("junit:junit")
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.11'
 }
