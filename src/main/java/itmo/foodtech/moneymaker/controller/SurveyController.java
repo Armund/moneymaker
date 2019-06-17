@@ -1,6 +1,7 @@
 package itmo.foodtech.moneymaker.controller;
 
 import itmo.foodtech.moneymaker.domain.Survey;
+import itmo.foodtech.moneymaker.domain.question.Question;
 import itmo.foodtech.moneymaker.repos.SurveyRepository;
 import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
@@ -30,6 +31,11 @@ public class SurveyController {
     @PostMapping
     public Survey create(@NotNull @Valid @RequestBody Survey survey) {
         survey.setId(ObjectId.get());
+
+        List<Question> questionList = survey.getQuestions();
+        for (Question question : questionList) {
+            question.setId(ObjectId.get());
+        }
         surveyRepository.save(survey);
         return survey;
     }
