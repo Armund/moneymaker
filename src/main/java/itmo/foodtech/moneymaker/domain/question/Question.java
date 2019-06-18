@@ -9,7 +9,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Question {
 
-    @Setter
     private ObjectId id;
 
     @NonNull
