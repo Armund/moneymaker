@@ -13,13 +13,19 @@ public class Question {
     private ObjectId id;
 
     @NonNull
+    private String title;
+
+    @NonNull
     private QuestionType type;
 
     @NonNull
-    private String label;
+    private String helpText;
 
     @NonNull
     private String placeholder;
+
+    @NonNull
+    private boolean hasOtherOption;
 
     @NonNull
     private boolean isRequired;

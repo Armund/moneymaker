@@ -20,10 +20,19 @@ public class Survey {
     private ObjectId id;
 
     @NonNull
-    private String surveyTitle;
+    private String title;
 
     @NonNull
-    private String surveyDescription;
+    private String description;
+
+    @NonNull
+    private String companyId;
+
+    @NonNull
+    private List<String> editorEmails;
+
+    @NonNull
+    private String confirmationMessage;
 
     @NonNull
     private List<Question> questions;
