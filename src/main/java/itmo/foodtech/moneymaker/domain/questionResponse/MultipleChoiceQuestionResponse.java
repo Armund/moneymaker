@@ -8,7 +8,7 @@ import lombok.NonNull;
 @NoArgsConstructor
 public class MultipleChoiceQuestionResponse {
     @NonNull
-    private String selectedAnswers;
+    private String selectedAnswer;
 
     private boolean selectedAnotherOption;
 }

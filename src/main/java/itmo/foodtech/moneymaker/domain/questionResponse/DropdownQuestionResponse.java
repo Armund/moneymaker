@@ -8,5 +8,5 @@ import lombok.NonNull;
 @NoArgsConstructor
 public class DropdownQuestionResponse {
     @NonNull
-    private String selectedAnswers;
+    private String selectedAnswer;
 }
