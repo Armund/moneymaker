@@ -17,13 +17,10 @@ public class Question {
     @NonNull
     private QuestionType type;
 
-    @NonNull
     private String helpText;
 
-    @NonNull
     private String placeholder;
 
-    @NonNull
     private boolean hasOtherOption;
 
     @NonNull

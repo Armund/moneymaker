@@ -24,7 +24,6 @@ public class Survey {
 
     private String companyId;
 
-    @NonNull
     private List<String> editorEmails;
 
     private String confirmationMessage;
