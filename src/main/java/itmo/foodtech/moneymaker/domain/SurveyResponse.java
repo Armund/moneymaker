@@ -1,6 +1,6 @@
 package itmo.foodtech.moneymaker.domain;
 
-import itmo.foodtech.moneymaker.domain.question.QuestionReply;
+import itmo.foodtech.moneymaker.domain.questionResponse.QuestionResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -24,7 +24,7 @@ public class SurveyResponse {
     private ObjectId surveyId;
 
     @NonNull
-    private List<QuestionReply> replies;
+    private List<QuestionResponse> replies;
 
     public String getId() {
         return id.toHexString();
