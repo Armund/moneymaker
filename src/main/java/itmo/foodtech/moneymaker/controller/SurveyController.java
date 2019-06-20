@@ -26,63 +26,64 @@ public class SurveyController {
     @GetMapping
     public List<Survey> getAllSurveys(@RequestParam(value = "fullInfo", required = false,
             defaultValue = "true") boolean fullInfo) {
+
         return surveyRepository.findAll();
     }
 
     @GetMapping("{surveyId}")
-    public Survey getSurvey(@PathVariable ObjectId surveyId) {
+    public Survey getSurvey(@PathVariable String surveyId) {
         return surveyRepository.findById(surveyId);
     }
 
     @PostMapping
     public Survey createSurvey(@NotNull @Valid @RequestBody Survey survey) {
-        survey.setId(ObjectId.get());
+        survey.setId(ObjectId.get().toHexString());
 
         List<Question> questionList = survey.getQuestions();
         for (Question question : questionList) {
-            question.setId(ObjectId.get());
+            question.setId(ObjectId.get().toHexString());
         }
         surveyRepository.save(survey);
         return survey;
     }
 
     @PutMapping("{surveyId}")
-    public void modifySurvey(@PathVariable ObjectId surveyId,
+    public void modifySurvey(@PathVariable String surveyId,
                              @NotNull @Valid @RequestBody Survey survey) {
         survey.setId(surveyId);
         surveyRepository.save(survey);
     }
 
     @DeleteMapping("{surveyId}")
-    public void deleteSurvey(@PathVariable ObjectId surveyId) {
+    public void deleteSurvey(@PathVariable String surveyId) {
         surveyRepository.delete(surveyRepository.findById(surveyId));
     }
 
     @GetMapping("{surveyId}/responses")
-    public List<SurveyResponse> getAllSurveyResponses(@PathVariable ObjectId surveyId,
+    public List<SurveyResponse> getAllSurveyResponses(@PathVariable String surveyId,
                                                       @RequestParam(value = "fullInfo", required = false,
                                                               defaultValue = "true") boolean fullInfo) {
         return responseRepository.findAllBySurveyId(surveyId);
     }
 
     @GetMapping("{surveyId}/responses/{responseId}")
-    public SurveyResponse getSurveyResponse(@PathVariable ObjectId surveyId,
-                                            @PathVariable ObjectId responseId) {
+    public SurveyResponse getSurveyResponse(@PathVariable String surveyId,
+                                            @PathVariable String responseId) {
         return responseRepository.findBySurveyIdAndId(surveyId, responseId);
     }
 
     @PostMapping("{surveyId}/responses")
-    public SurveyResponse createSurveyResponse(@PathVariable ObjectId surveyId,
+    public SurveyResponse createSurveyResponse(@PathVariable String surveyId,
                                                @NotNull @Valid @RequestBody SurveyResponse response) {
         response.setSurveyId(surveyId);
-        response.setId(ObjectId.get());
+        response.setId(ObjectId.get().toHexString());
         responseRepository.save(response);
         return response;
     }
 
     @PutMapping("{surveyId}/responses/{responseId}")
-    public void modifySurveyResponse(@PathVariable ObjectId surveyId,
-                                     @PathVariable ObjectId responseId,
+    public void modifySurveyResponse(@PathVariable String surveyId,
+                                     @PathVariable String responseId,
                                      @NotNull @Valid @RequestBody SurveyResponse response) {
         response.setId(responseId);
         response.setSurveyId(surveyId);

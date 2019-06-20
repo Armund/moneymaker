@@ -1,5 +1,6 @@
-package itmo.foodtech.moneymaker.domain.questionResponse;
+package itmo.foodtech.moneymaker.domain.questionResponse.responseSubtypes;
 
+import itmo.foodtech.moneymaker.domain.questionResponse.QuestionResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -10,5 +11,5 @@ public class MultipleChoiceQuestionResponse extends QuestionResponse {
     @NonNull
     private String selectedAnswer;
 
-    private boolean selectedAnotherOption;
+    //private boolean selectedAnotherOption;
 }

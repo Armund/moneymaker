@@ -2,10 +2,15 @@ package itmo.foodtech.moneymaker.domain.question;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import itmo.foodtech.moneymaker.domain.question.questionSubtypes.CheckboxQuestion;
+import itmo.foodtech.moneymaker.domain.question.questionSubtypes.DropdownQuestion;
+import itmo.foodtech.moneymaker.domain.question.questionSubtypes.MultipleChoiceQuestion;
+import itmo.foodtech.moneymaker.domain.question.questionSubtypes.TextareaQuestion;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import org.bson.types.ObjectId;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY,
         property = "type", visible = true)
@@ -17,9 +22,10 @@ import org.bson.types.ObjectId;
 })
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Question {
 
-    private ObjectId id;
+    private String id;
 
     @NonNull
     private String title;
@@ -33,7 +39,16 @@ public class Question {
 
     private boolean isRequired;
 
-    public String getId() {
+    /*public String getId() {
         return id.toHexString();
+    }*/
+
+    @JsonDeserialize(using = QuestionTypeDeserializer.class)
+    public enum QuestionType {
+        DROPDOWN,
+        TEXTAREA,
+        CHECKBOX,
+        MULTIPLE_CHOICE,
+        TEXT
     }
 }

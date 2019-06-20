@@ -5,5 +5,5 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface SurveyRepository extends MongoRepository<Survey, Long> {
-    Survey findById(ObjectId id);
+    Survey findById(String id);
 }

@@ -4,8 +4,6 @@ import itmo.foodtech.moneymaker.domain.questionResponse.QuestionResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.Setter;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,17 +15,18 @@ import java.util.List;
 public class SurveyResponse {
 
     @Id
-    @Setter
-    private ObjectId id;
+    private String id;
 
     @NonNull
-    private ObjectId surveyId;
+    private String surveyId;
+
+    private int answeredQuestionsNumber;
 
     @NonNull
     private List<QuestionResponse> replies;
 
-    public String getId() {
+    /*public String getId() {
         return id.toHexString();
-    }
+    }*/
 
 }

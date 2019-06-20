@@ -9,10 +9,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
 
-class QuestionTypeDeserializer extends JsonDeserializer<QuestionType> {
+class QuestionTypeDeserializer extends JsonDeserializer<Question.QuestionType> {
 
     @Override
-    public QuestionType deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+    public Question.QuestionType deserialize(JsonParser jsonParser,
+                                     DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         ObjectCodec oc = jsonParser.getCodec();
         JsonNode node = oc.readTree(jsonParser);
 
@@ -26,6 +27,6 @@ class QuestionTypeDeserializer extends JsonDeserializer<QuestionType> {
             return null;
         }
 
-        return QuestionType.valueOf(text.toUpperCase());
+        return Question.QuestionType.valueOf(text.toUpperCase());
     }
 }
