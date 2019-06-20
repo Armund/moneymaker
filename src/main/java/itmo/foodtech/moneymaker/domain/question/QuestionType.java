@@ -7,5 +7,6 @@ public enum QuestionType {
     DROPDOWN,
     TEXTAREA,
     CHECKBOX,
-    MULTIPLE_CHOICE
+    MULTIPLE_CHOICE,
+    TEXT
 }

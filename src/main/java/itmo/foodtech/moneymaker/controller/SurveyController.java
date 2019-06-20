@@ -24,7 +24,8 @@ public class SurveyController {
     private SurveyResponseRepository responseRepository;
 
     @GetMapping
-    public List<Survey> getAllSurveys(@RequestParam boolean fullInfo) {
+    public List<Survey> getAllSurveys(@RequestParam(value = "fullInfo", required = false,
+            defaultValue = "true") boolean fullInfo) {
         return surveyRepository.findAll();
     }
 
@@ -59,7 +60,8 @@ public class SurveyController {
 
     @GetMapping("{surveyId}/responses")
     public List<SurveyResponse> getAllSurveyResponses(@PathVariable ObjectId surveyId,
-                                                      @RequestParam boolean fullInfo) {
+                                                      @RequestParam(value = "fullInfo", required = false,
+                                                              defaultValue = "true") boolean fullInfo) {
         return responseRepository.findAllBySurveyId(surveyId);
     }
 
