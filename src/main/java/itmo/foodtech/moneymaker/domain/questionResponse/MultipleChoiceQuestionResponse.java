@@ -6,7 +6,7 @@ import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
-public class MultipleChoiceQuestionResponse {
+public class MultipleChoiceQuestionResponse extends QuestionResponse {
     @NonNull
     private String selectedAnswer;
 

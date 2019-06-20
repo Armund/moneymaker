@@ -6,7 +6,7 @@ import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
-public class DropdownQuestionResponse {
+public class DropdownQuestionResponse extends QuestionResponse {
     @NonNull
     private String selectedAnswer;
 }

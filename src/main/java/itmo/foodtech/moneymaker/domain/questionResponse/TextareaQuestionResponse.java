@@ -6,7 +6,7 @@ import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
-public class TextareaQuestionResponse {
+public class TextareaQuestionResponse extends QuestionResponse {
     @NonNull
     private String text;
 }

@@ -24,12 +24,14 @@ public class Survey {
 
     private String companyId;
 
-    private List<String> editorEmails;
+    private List<ObjectId> editorsId;
 
     private String confirmationMessage;
 
     @NonNull
     private List<Question> questions;
+
+    private int questionsNumber;
 
     public String getId() {
         return id.toHexString();
