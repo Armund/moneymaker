@@ -12,7 +12,6 @@ import itmo.foodtech.moneymaker.domain.question.Question;
 import itmo.foodtech.moneymaker.repos.SurveyRepository;
 import itmo.foodtech.moneymaker.repos.SurveyResponseRepository;
 import org.bson.types.ObjectId;
-import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -87,7 +86,7 @@ public class SurveyController {
     }
 
     @PostMapping
-    public Survey createSurvey(@NotNull @Valid @RequestBody Survey survey) {
+    public Survey createSurvey(@Valid @RequestBody Survey survey) {
         survey.setId(ObjectId.get().toHexString());
 
         List<Question> questionList = survey.getQuestions();
@@ -100,7 +99,7 @@ public class SurveyController {
 
     @PutMapping("{surveyId}")
     public void modifySurvey(@PathVariable String surveyId,
-                             @NotNull @Valid @RequestBody Survey survey) {
+                             @Valid @RequestBody Survey survey) {
         survey.setId(surveyId);
         surveyRepository.save(survey);
     }
@@ -189,7 +188,7 @@ public class SurveyController {
 
     @PostMapping("{surveyId}/responses")
     public SurveyResponse createSurveyResponse(@PathVariable String surveyId,
-                                               @NotNull @Valid @RequestBody SurveyResponse response) {
+                                               @Valid @RequestBody SurveyResponse response) {
         response.setSurveyId(surveyId);
         response.setId(ObjectId.get().toHexString());
         responseRepository.save(response);
@@ -199,7 +198,7 @@ public class SurveyController {
     @PutMapping("{surveyId}/responses/{responseId}")
     public void modifySurveyResponse(@PathVariable String surveyId,
                                      @PathVariable String responseId,
-                                     @NotNull @Valid @RequestBody SurveyResponse response) {
+                                     @Valid @RequestBody SurveyResponse response) {
         response.setId(responseId);
         response.setSurveyId(surveyId);
         responseRepository.save(response);
