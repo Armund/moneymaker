@@ -5,5 +5,5 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class SimplifiedResponseDto extends ResponseDto {
+public class SurvayResults {
 }

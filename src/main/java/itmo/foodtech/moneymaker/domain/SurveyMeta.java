@@ -4,8 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 public class SurveyMeta {
@@ -17,7 +15,8 @@ public class SurveyMeta {
 
     private String companyId;
 
-    private List<String> editorsId;
+    @NonNull
+    private String editorId;
 
     private String confirmationMessage;
 

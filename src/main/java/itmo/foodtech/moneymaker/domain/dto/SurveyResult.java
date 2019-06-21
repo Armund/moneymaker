@@ -1,6 +1,5 @@
 package itmo.foodtech.moneymaker.domain.dto;
 
-import itmo.foodtech.moneymaker.domain.dto.meta.BaseSurveyMeta;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +8,10 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SimplifiedSurveyDto extends SurveyDto {
+public class SurveyResult {
 
     @NonNull
-    private BaseSurveyMeta meta;
+    FullSurveyDto survey;
+
+    FullResponseDto response;
 }

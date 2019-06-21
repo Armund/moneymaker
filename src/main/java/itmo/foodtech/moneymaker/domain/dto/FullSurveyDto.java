@@ -5,19 +5,18 @@ import itmo.foodtech.moneymaker.domain.question.Question;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
+import lombok.NonNull;
 
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FullSurveyDto {
+public class FullSurveyDto extends SurveyDto {
 
-    @Id
-    private String id;
-
+    @NonNull
     private ExtendedSurveyMeta meta;
 
+    @NonNull
     private List<Question> questions;
 }

@@ -20,6 +20,8 @@ public class SurveyResponse {
     @NonNull
     private String surveyId;
 
+    private String checkId;
+
     private int answeredQuestionsNumber;
 
     @NonNull

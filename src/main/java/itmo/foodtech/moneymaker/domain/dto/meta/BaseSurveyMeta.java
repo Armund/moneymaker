@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +19,7 @@ public class BaseSurveyMeta {
 
     private CompanyDto company;
 
-    private List<EditorDto> editors;
+    private EditorDto editor;
 
     private int questionsNumber;
 }

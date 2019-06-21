@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Transient;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY,
         property = "type", visible = true)
@@ -27,6 +25,6 @@ public class QuestionResponse {
     @NonNull
     private String questionId;
 
-    @Transient
+    @NonNull
     private Question.QuestionType type;
 }
