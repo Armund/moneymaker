@@ -32,7 +32,7 @@ public class SurveyController {
     private SurveyResponseRepository responseRepository;
 
     @Autowired
-    private ModelMapper mapper;
+    private ModelMapper surveyMapper;
 
     @GetMapping
     public List<? extends SurveyDto> getAllSurveys(@RequestParam(value = "fullInfo", required = false,
@@ -49,7 +49,7 @@ public class SurveyController {
                                          .collect(Collectors.toList());
         if (fullInfo) {
             List<FullSurveyDto> result = surveys.stream()
-                                            .map(survey -> mapper.map(survey, FullSurveyDto.class))
+                                            .map(survey -> surveyMapper.map(survey, FullSurveyDto.class))
                                             .collect(Collectors.toList());
             for (int i = 0; i < result.size(); i++) {
                 result.get(i).getMeta().setCompany(
@@ -60,7 +60,7 @@ public class SurveyController {
             return result;
         }
         List<SimplifiedSurveyDto> result = surveys.stream()
-                                                .map(survey -> mapper.map(survey, SimplifiedSurveyDto.class))
+                                                .map(survey -> surveyMapper.map(survey, SimplifiedSurveyDto.class))
                                                 .collect(Collectors.toList());
         for (int i = 0; i < result.size(); i++) {
             result.get(i).getMeta().setCompany(
@@ -77,7 +77,7 @@ public class SurveyController {
         if (survey == null) {
             return null;
         }
-        FullSurveyDto surveyDto = mapper.map(survey, FullSurveyDto.class);
+        FullSurveyDto surveyDto = surveyMapper.map(survey, FullSurveyDto.class);
         surveyDto.getMeta().setCompany(
                 new CompanyDto(survey.getMeta().getCompanyId(), "Some Company"));
         surveyDto.getMeta().setEditor(
@@ -101,6 +101,11 @@ public class SurveyController {
     public void modifySurvey(@PathVariable String surveyId,
                              @Valid @RequestBody Survey survey) {
         survey.setId(surveyId);
+        for (Question question: survey.getQuestions()) {
+            if (question.getId() == null) {
+                question.setId(ObjectId.get().toHexString());
+            }
+        }
         surveyRepository.save(survey);
     }
 
@@ -120,7 +125,7 @@ public class SurveyController {
 
 
         if (fullInfo) {
-            FullSurveyDto surveyDto = mapper.map(survey, FullSurveyDto.class);
+            FullSurveyDto surveyDto = surveyMapper.map(survey, FullSurveyDto.class);
             List<SurveyResponse> responses = responseRepository.findAllBySurveyId(surveyId);
             if (responses == null) {
                 return new FullSurveyResults(surveyDto, null);
@@ -131,7 +136,7 @@ public class SurveyController {
                     new EditorDto(survey.getMeta().getEditorId(), "Some editor"));
 
             List<FullResponseDto> result = responses.stream()
-                    .map(response -> mapper.map(response, FullResponseDto.class))
+                    .map(response -> surveyMapper.map(response, FullResponseDto.class))
                     .collect(Collectors.toList());
             for (int i = 0; i < result.size(); i++) {
                 result.get(i).setMeta(new ResponseMeta(new IntegrationDto(ObjectId.get().toHexString(),
@@ -141,7 +146,7 @@ public class SurveyController {
             return new FullSurveyResults(surveyDto, result);
         }
 
-        SimplifiedSurveyDto surveyDto = mapper.map(survey, SimplifiedSurveyDto.class);
+        SimplifiedSurveyDto surveyDto = surveyMapper.map(survey, SimplifiedSurveyDto.class);
         List<SurveyResponse> responses = responseRepository.findAllBySurveyId(surveyId);
         if (responses == null) {
             return new SimplifiedSurveyResults(surveyDto, null);
@@ -152,7 +157,7 @@ public class SurveyController {
                 new EditorDto(survey.getMeta().getEditorId(), "Some editor"));
 
         List<SimplifiedResponseDto> result = responses.stream()
-                .map(response -> mapper.map(response, SimplifiedResponseDto.class))
+                .map(response -> surveyMapper.map(response, SimplifiedResponseDto.class))
                 .collect(Collectors.toList());
         for (int i = 0; i < result.size(); i++) {
             result.get(i).setMeta(new ResponseMeta(new IntegrationDto(ObjectId.get().toHexString(),
@@ -169,7 +174,7 @@ public class SurveyController {
         if (survey == null) {
             return null;
         }
-        FullSurveyDto surveyDto = mapper.map(survey, FullSurveyDto.class);
+        FullSurveyDto surveyDto = surveyMapper.map(survey, FullSurveyDto.class);
         surveyDto.getMeta().setCompany(
                 new CompanyDto(survey.getMeta().getCompanyId(), "Some Company"));
         surveyDto.getMeta().setEditor(
@@ -179,7 +184,7 @@ public class SurveyController {
         if (response == null) {
             return new SurveyResult(surveyDto, null);
         }
-        FullResponseDto responseDto = mapper.map(response, FullResponseDto.class);
+        FullResponseDto responseDto = surveyMapper.map(response, FullResponseDto.class);
         responseDto.setMeta(new ResponseMeta(new IntegrationDto(ObjectId.get().toHexString(),
                 1000d, Arrays.asList(new OrderItem("Pasta", 1000d))),
                 10));

@@ -1,6 +1,5 @@
 package itmo.foodtech.moneymaker.domain.question;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -38,7 +37,6 @@ public class Question {
 
     private String placeholder;
 
-    @JsonProperty("isRequired")
     private boolean isRequired;
 
     /*public String getId() {
