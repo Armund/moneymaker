@@ -13,6 +13,8 @@ public class SurveyMeta {
     @NonNull
     private String description;
 
+    private String posterId;
+
     private String companyId;
 
     @NonNull
