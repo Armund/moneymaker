@@ -161,11 +161,9 @@ public class SurveyController {
             List<FullResponseDto> result = responses.stream()
                     .map(response -> surveyMapper.map(response, FullResponseDto.class))
                     .collect(Collectors.toList());
-            for (FullResponseDto responseDto : result) {
-                responseDto.setMeta(new ResponseMeta(integrationRepository.findByCheckId(responseDto
-                                .getMeta()
-                                .getIntegrationInfo()
-                                .getCheckId()), responseDto.getMeta().getAnsweredQuestionsNumber()));
+            for (int i = 0; i < result.size(); i++) {
+                result.get(i).setMeta(new ResponseMeta(integrationRepository.findByCheckId(responses.get(i)
+                                .getCheckId()), responses.get(i).getAnsweredQuestionsNumber()));
             }
             return new FullSurveyResults(surveyDto, result);
         }
@@ -183,11 +181,9 @@ public class SurveyController {
         List<SimplifiedResponseDto> result = responses.stream()
                 .map(response -> surveyMapper.map(response, SimplifiedResponseDto.class))
                 .collect(Collectors.toList());
-        for (SimplifiedResponseDto responseDto : result) {
-            responseDto.setMeta(new ResponseMeta(integrationRepository.findByCheckId(responseDto
-                    .getMeta()
-                    .getIntegrationInfo()
-                    .getCheckId()), responseDto.getMeta().getAnsweredQuestionsNumber()));
+        for (int i = 0; i < result.size(); i++) {
+            result.get(i).setMeta(new ResponseMeta(integrationRepository.findByCheckId(responses.get(i)
+                    .getCheckId()), responses.get(i).getAnsweredQuestionsNumber()));
         }
         return new SimplifiedSurveyResults(surveyDto, result);
     }
@@ -209,12 +205,9 @@ public class SurveyController {
         if (response == null) {
             return new SurveyResult(surveyDto, null);
         }
-        int answeredQuestionsNumber = response.getAnsweredQuestionsNumber();
         FullResponseDto responseDto = surveyMapper.map(response, FullResponseDto.class);
-        responseDto.setMeta(new ResponseMeta(integrationRepository.findByCheckId(responseDto
-                .getMeta()
-                .getIntegrationInfo()
-                .getCheckId()), answeredQuestionsNumber));
+        responseDto.setMeta(new ResponseMeta(integrationRepository.findByCheckId(response
+                                .getCheckId()), response.getAnsweredQuestionsNumber()));
         return new SurveyResult(surveyDto, responseDto);
     }
 
