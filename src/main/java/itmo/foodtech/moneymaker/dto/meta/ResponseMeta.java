@@ -1,6 +1,6 @@
-package itmo.foodtech.moneymaker.domain.dto.meta;
+package itmo.foodtech.moneymaker.dto.meta;
 
-import itmo.foodtech.moneymaker.domain.dto.meta.supportingClasses.IntegrationDto;
+import itmo.foodtech.moneymaker.dto.meta.supportingClasses.IntegrationDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

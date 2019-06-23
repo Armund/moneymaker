@@ -1,5 +1,7 @@
-package itmo.foodtech.moneymaker.domain.dto;
+package itmo.foodtech.moneymaker.dto.survey.finalDto;
 
+import itmo.foodtech.moneymaker.dto.response.FullResponseDto;
+import itmo.foodtech.moneymaker.dto.survey.FullSurveyDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

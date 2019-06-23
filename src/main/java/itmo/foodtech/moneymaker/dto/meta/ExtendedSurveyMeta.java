@@ -1,4 +1,4 @@
-package itmo.foodtech.moneymaker.domain.dto.meta;
+package itmo.foodtech.moneymaker.dto.meta;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

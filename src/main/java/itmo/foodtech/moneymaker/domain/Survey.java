@@ -1,6 +1,7 @@
 package itmo.foodtech.moneymaker.domain;
 
 import itmo.foodtech.moneymaker.domain.question.Question;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -12,6 +13,7 @@ import java.util.List;
 @Document(collection = "survey")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Survey {
     @Id
     private String id;
@@ -21,8 +23,4 @@ public class Survey {
 
     @NonNull
     private List<Question> questions;
-
-    /*public String getId() {
-        return id.toHexString();
-    }*/
 }

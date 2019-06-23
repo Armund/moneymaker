@@ -1,6 +1,6 @@
-package itmo.foodtech.moneymaker.domain.dto;
+package itmo.foodtech.moneymaker.dto.survey;
 
-import itmo.foodtech.moneymaker.domain.dto.meta.ExtendedSurveyMeta;
+import itmo.foodtech.moneymaker.dto.meta.ExtendedSurveyMeta;
 import itmo.foodtech.moneymaker.domain.question.Question;
 import lombok.AllArgsConstructor;
 import lombok.Data;

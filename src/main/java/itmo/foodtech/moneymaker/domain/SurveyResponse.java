@@ -26,9 +26,4 @@ public class SurveyResponse {
 
     @NonNull
     private List<QuestionResponse> replies;
-
-    /*public String getId() {
-        return id.toHexString();
-    }*/
-
 }

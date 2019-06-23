@@ -1,10 +1,11 @@
-package itmo.foodtech.moneymaker.integrationService;
+package itmo.foodtech.moneymaker.service.impl;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import itmo.foodtech.moneymaker.domain.dto.meta.supportingClasses.IntegrationDto;
-import itmo.foodtech.moneymaker.domain.dto.meta.supportingClasses.OrderItem;
+import itmo.foodtech.moneymaker.dto.meta.supportingClasses.IntegrationDto;
+import itmo.foodtech.moneymaker.dto.meta.supportingClasses.OrderItem;
+import itmo.foodtech.moneymaker.service.IntegrationService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class IntegrationToSurvey implements IntegrationService {
+public class PosterIntegrationService implements IntegrationService {
 
     private final String accessToken = "430671:0616508460c6523122e380412cc56964"; //we need to put it in some config file
 
@@ -31,7 +32,7 @@ public class IntegrationToSurvey implements IntegrationService {
      * Required to avoid Poster bug with price type
      * Poster, fix it pls!
      */
-    private Double posterBugFix (String value) {
+    private Double posterBugFix(String value) {
         StringBuilder result = new StringBuilder(value);
         result.insert(value.length() - 2, '.');
 
@@ -79,11 +80,11 @@ public class IntegrationToSurvey implements IntegrationService {
 
     @Override
     public IntegrationDto integrationDto(String checkId) {
-        try {
-            String transactionURL = getTransactionURL(checkId);
-
-            JsonFactory factory = new JsonFactory();
-            JsonParser jsonParser = factory.createParser(new URL(transactionURL));
+        if (checkId == null) {
+            return null;
+        }
+        try (JsonParser jsonParser =
+                     new JsonFactory().createParser(new URL(getTransactionURL(checkId)))) {
 
             // Check for poster response errors
             jsonParser.nextFieldName();

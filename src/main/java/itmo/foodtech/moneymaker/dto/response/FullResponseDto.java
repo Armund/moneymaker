@@ -1,4 +1,4 @@
-package itmo.foodtech.moneymaker.domain.dto;
+package itmo.foodtech.moneymaker.dto.response;
 
 import itmo.foodtech.moneymaker.domain.questionResponse.QuestionResponse;
 import lombok.AllArgsConstructor;

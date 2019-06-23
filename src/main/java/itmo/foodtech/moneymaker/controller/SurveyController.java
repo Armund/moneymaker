@@ -2,22 +2,30 @@ package itmo.foodtech.moneymaker.controller;
 
 import itmo.foodtech.moneymaker.domain.Survey;
 import itmo.foodtech.moneymaker.domain.SurveyResponse;
-import itmo.foodtech.moneymaker.domain.dto.*;
-import itmo.foodtech.moneymaker.domain.dto.meta.ResponseMeta;
-import itmo.foodtech.moneymaker.domain.dto.meta.supportingClasses.CompanyDto;
-import itmo.foodtech.moneymaker.domain.dto.meta.supportingClasses.EditorDto;
-import itmo.foodtech.moneymaker.domain.dto.meta.supportingClasses.IntegrationDto;
-import itmo.foodtech.moneymaker.domain.dto.meta.supportingClasses.OrderItem;
 import itmo.foodtech.moneymaker.domain.question.Question;
+import itmo.foodtech.moneymaker.dto.meta.ResponseMeta;
+import itmo.foodtech.moneymaker.dto.meta.supportingClasses.CompanyDto;
+import itmo.foodtech.moneymaker.dto.meta.supportingClasses.EditorDto;
+import itmo.foodtech.moneymaker.dto.meta.supportingClasses.IntegrationDto;
+import itmo.foodtech.moneymaker.dto.response.FullResponseDto;
+import itmo.foodtech.moneymaker.dto.response.SimplifiedResponseDto;
+import itmo.foodtech.moneymaker.dto.survey.FullSurveyDto;
+import itmo.foodtech.moneymaker.dto.survey.SimplifiedSurveyDto;
+import itmo.foodtech.moneymaker.dto.survey.SurveyDto;
+import itmo.foodtech.moneymaker.dto.survey.finalDto.FullSurveyResults;
+import itmo.foodtech.moneymaker.dto.survey.finalDto.SimplifiedSurveyResults;
+import itmo.foodtech.moneymaker.dto.survey.finalDto.SurveyResult;
+import itmo.foodtech.moneymaker.dto.survey.finalDto.SurveyResults;
+import itmo.foodtech.moneymaker.repos.IntegrationRepository;
 import itmo.foodtech.moneymaker.repos.SurveyRepository;
 import itmo.foodtech.moneymaker.repos.SurveyResponseRepository;
+import itmo.foodtech.moneymaker.service.impl.PosterIntegrationService;
 import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,18 +33,33 @@ import java.util.stream.Collectors;
 @RequestMapping("surveys")
 public class SurveyController {
 
-    @Autowired
     private SurveyRepository surveyRepository;
 
-    @Autowired
     private SurveyResponseRepository responseRepository;
 
-    @Autowired
     private ModelMapper surveyMapper;
+
+    private PosterIntegrationService posterIntegrationService;
+
+    private IntegrationRepository integrationRepository;
+
+    @Autowired
+    public SurveyController(SurveyRepository surveyRepository,
+                            SurveyResponseRepository responseRepository,
+                            IntegrationRepository integrationRepository,
+                            ModelMapper surveyMapper,
+                            PosterIntegrationService posterIntegrationService ) {
+        this.surveyRepository = surveyRepository;
+        this.responseRepository = responseRepository;
+        this.integrationRepository = integrationRepository;
+        this.surveyMapper = surveyMapper;
+        this.posterIntegrationService = posterIntegrationService;
+    }
 
     @GetMapping
     public List<? extends SurveyDto> getAllSurveys(@RequestParam(value = "fullInfo", required = false,
             defaultValue = "true") boolean fullInfo) {
+
         List<Survey> surveys = surveyRepository.findAll();
         if (surveys == null) {
             return null;
@@ -115,17 +138,17 @@ public class SurveyController {
     }
 
     @GetMapping("{surveyId}/responses")
-    public SurvayResults getAllSurveyResponses(@PathVariable String surveyId,
-                                                      @RequestParam(value = "fullInfo", required = false,
+    public SurveyResults getAllSurveyResponses(@PathVariable String surveyId,
+                                               @RequestParam(value = "fullInfo", required = false,
                                                               defaultValue = "true") boolean fullInfo) {
         Survey survey = surveyRepository.findById(surveyId);
         if (survey == null) {
             return null;
         }
 
-
         if (fullInfo) {
             FullSurveyDto surveyDto = surveyMapper.map(survey, FullSurveyDto.class);
+
             List<SurveyResponse> responses = responseRepository.findAllBySurveyId(surveyId);
             if (responses == null) {
                 return new FullSurveyResults(surveyDto, null);
@@ -138,10 +161,11 @@ public class SurveyController {
             List<FullResponseDto> result = responses.stream()
                     .map(response -> surveyMapper.map(response, FullResponseDto.class))
                     .collect(Collectors.toList());
-            for (int i = 0; i < result.size(); i++) {
-                result.get(i).setMeta(new ResponseMeta(new IntegrationDto(ObjectId.get().toHexString(),
-                        1000d, Arrays.asList(new OrderItem("Pasta", 1000d))),
-                        10));
+            for (FullResponseDto responseDto : result) {
+                responseDto.setMeta(new ResponseMeta(integrationRepository.findByCheckId(responseDto
+                                .getMeta()
+                                .getIntegrationInfo()
+                                .getCheckId()), responseDto.getMeta().getAnsweredQuestionsNumber()));
             }
             return new FullSurveyResults(surveyDto, result);
         }
@@ -159,10 +183,11 @@ public class SurveyController {
         List<SimplifiedResponseDto> result = responses.stream()
                 .map(response -> surveyMapper.map(response, SimplifiedResponseDto.class))
                 .collect(Collectors.toList());
-        for (int i = 0; i < result.size(); i++) {
-            result.get(i).setMeta(new ResponseMeta(new IntegrationDto(ObjectId.get().toHexString(),
-                    1000d, Arrays.asList(new OrderItem("Pasta", 1000d))),
-                    10));
+        for (SimplifiedResponseDto responseDto : result) {
+            responseDto.setMeta(new ResponseMeta(integrationRepository.findByCheckId(responseDto
+                    .getMeta()
+                    .getIntegrationInfo()
+                    .getCheckId()), responseDto.getMeta().getAnsweredQuestionsNumber()));
         }
         return new SimplifiedSurveyResults(surveyDto, result);
     }
@@ -184,10 +209,12 @@ public class SurveyController {
         if (response == null) {
             return new SurveyResult(surveyDto, null);
         }
+        int answeredQuestionsNumber = response.getAnsweredQuestionsNumber();
         FullResponseDto responseDto = surveyMapper.map(response, FullResponseDto.class);
-        responseDto.setMeta(new ResponseMeta(new IntegrationDto(ObjectId.get().toHexString(),
-                1000d, Arrays.asList(new OrderItem("Pasta", 1000d))),
-                10));
+        responseDto.setMeta(new ResponseMeta(integrationRepository.findByCheckId(responseDto
+                .getMeta()
+                .getIntegrationInfo()
+                .getCheckId()), answeredQuestionsNumber));
         return new SurveyResult(surveyDto, responseDto);
     }
 
@@ -197,6 +224,12 @@ public class SurveyController {
         response.setSurveyId(surveyId);
         response.setId(ObjectId.get().toHexString());
         responseRepository.save(response);
+
+        IntegrationDto integrationData =
+                posterIntegrationService.integrationDto(response.getCheckId());
+        if (integrationData != null) {
+            integrationRepository.save(integrationData);
+        }
         return response;
     }
 
