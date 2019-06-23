@@ -9,7 +9,6 @@ import itmo.foodtech.moneymaker.service.IntegrationService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ public class PosterIntegrationService implements IntegrationService {
     /**
      * Poster Web Api getTransactionProducts URL
      */
-    private String getTransactionURL(String checkId) throws MalformedURLException {
+    private String getTransactionURL(String checkId) {
         return "https://joinposter.com/api/dash.getTransactionProducts"
                 + "?token=" + accessToken
                 + "&transaction_id=" + checkId;
