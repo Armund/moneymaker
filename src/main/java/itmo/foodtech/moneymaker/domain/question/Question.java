@@ -2,7 +2,6 @@ package itmo.foodtech.moneymaker.domain.question;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import itmo.foodtech.moneymaker.domain.question.questionSubtypes.CheckboxQuestion;
 import itmo.foodtech.moneymaker.domain.question.questionSubtypes.DropdownQuestion;
 import itmo.foodtech.moneymaker.domain.question.questionSubtypes.MultipleChoiceQuestion;
@@ -39,11 +38,6 @@ public class Question {
 
     private boolean isRequired;
 
-    /*public String getId() {
-        return id.toHexString();
-    }*/
-
-    @JsonDeserialize(using = QuestionTypeDeserializer.class)
     public enum QuestionType {
         DROPDOWN,
         TEXTAREA,
