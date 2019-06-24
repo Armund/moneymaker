@@ -2,10 +2,7 @@ package itmo.foodtech.moneymaker.domain.question;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import itmo.foodtech.moneymaker.domain.question.questionSubtypes.CheckboxQuestion;
-import itmo.foodtech.moneymaker.domain.question.questionSubtypes.DropdownQuestion;
-import itmo.foodtech.moneymaker.domain.question.questionSubtypes.MultipleChoiceQuestion;
-import itmo.foodtech.moneymaker.domain.question.questionSubtypes.TextareaQuestion;
+import itmo.foodtech.moneymaker.domain.question.questionSubtypes.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +14,8 @@ import lombok.NonNull;
         @JsonSubTypes.Type(value = TextareaQuestion.class, name = "TEXTAREA"),
         @JsonSubTypes.Type(value = MultipleChoiceQuestion.class, name = "MULTIPLE_CHOICE"),
         @JsonSubTypes.Type(value = CheckboxQuestion.class, name = "CHECKBOX"),
-        @JsonSubTypes.Type(value = DropdownQuestion.class, name = "DROPDOWN")
+        @JsonSubTypes.Type(value = DropdownQuestion.class, name = "DROPDOWN"),
+        @JsonSubTypes.Type(value = TextQuestion.class, name = "TEXT")
 })
 @Data
 @NoArgsConstructor
