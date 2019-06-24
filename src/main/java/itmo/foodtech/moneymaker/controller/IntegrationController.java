@@ -1,6 +1,7 @@
 package itmo.foodtech.moneymaker.controller;
 
 import itmo.foodtech.moneymaker.domain.Survey;
+import itmo.foodtech.moneymaker.dto.IntegrationResponseDto;
 import itmo.foodtech.moneymaker.repos.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,13 +25,14 @@ public class IntegrationController {
     }
 
     @GetMapping("{posterId}")
-    public ResponseEntity<String> getSurveyURL(@PathVariable String posterId) {
+    public ResponseEntity<IntegrationResponseDto> getSurveyURL(@PathVariable String posterId) {
         List<Survey> surveys = surveyRepository.findAllByMetaPosterId(posterId);
         if (surveys == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(
-                "https://foodtechmoneymaker.herokuapp.com/surveys/" + surveys.get(0).getId(),
+                new IntegrationResponseDto("https://foodtechmoneymaker.herokuapp.com/surveys/" +
+                        surveys.get(0).getId()),
                 HttpStatus.OK);
     }
 }
