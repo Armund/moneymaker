@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VkUser {
+
     private String vkId;
 
     private String firstName;
@@ -16,9 +17,13 @@ public class VkUser {
 
     private String bdate;
 
+    private String country;
+
     private String city;
 
     private int gender;
 
     private int timezone;
+
+    private int age;
 }
