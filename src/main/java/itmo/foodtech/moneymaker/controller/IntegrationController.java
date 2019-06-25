@@ -31,7 +31,7 @@ public class IntegrationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(
-                new IntegrationResponseDto("https://foodtechmoneymaker.herokuapp.com/surveys/" +
+                new IntegrationResponseDto("http://creatingsurveys.herokuapp.com/#/survey/" +
                         surveys.get(0).getId()),
                 HttpStatus.OK);
     }
