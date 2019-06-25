@@ -13,7 +13,7 @@ import lombok.NonNull;
 public class SurveyResult {
 
     @NonNull
-    FullSurveyDto survey;
+    private FullSurveyDto survey;
 
-    FullResponseDto response;
+    private FullResponseDto response;
 }
