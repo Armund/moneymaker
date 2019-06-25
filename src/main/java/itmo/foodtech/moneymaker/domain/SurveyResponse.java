@@ -26,4 +26,6 @@ public class SurveyResponse {
 
     @NonNull
     private List<QuestionResponse> replies;
+
+    private VkUser vkUser;
 }
